@@ -1,83 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Grow a Garden Calculator</title>
-    <style>
-        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-        .container { background: white; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
-        h1 { text-align: center; }
-        label, select, input { display: block; margin-top: 10px; width: 100%; }
-        button { margin-top: 20px; padding: 10px; background: green; color: white; border: none; cursor: pointer; }
-        #result { margin-top: 20px; font-size: 1.2em; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <title>حاسبة Grow a Garden 🌱</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f8f4;
+      padding: 20px;
+      direction: rtl;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    select, input {
+      width: 100%;
+      padding: 5px;
+    }
+    .result {
+      margin-top: 20px;
+      background: #dff0d8;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Grow a Garden Value Calculator</h1>
-        <label for="plant">Plant</label>
-        <select id="plant">
-            <option value="Rose">Rose</option>
-            <option value="Carrot">Carrot</option>
-            <option value="Sunflower">Sunflower</option>
-            <option value="Tulip">Tulip</option>
-            <option value="Lily">Lily</option>
-            <option value="Pumpkin">Pumpkin</option>
-            <option value="Strawberry">Strawberry</option>
-            <option value="Cactus">Cactus</option>
-            <option value="Pineapple">Pineapple</option>
-            <option value="Watermelon">Watermelon</option>
-        </select>
 
-        <label for="weight">Weight</label>
-        <input type="number" id="weight" value="1" step="0.01">
+<h1>🌸 حاسبة Grow a Garden | Grow a Garden Calculator 🌿</h1>
 
-        <label for="growth">Growth Type</label>
-        <select id="growth">
-            <option value="1">Normal ×1</option>
-            <option value="20">Golden ×20</option>
-            <option value="50">Rainbow ×50</option>
-        </select>
+<label>🌱 اختر النبتة | Choose Plant:</label>
+<select id="plant">
+  <option value="rose" data-base="10000">🌹 Rose - وردة</option>
+  <option value="carrot" data-base="250">🥕 Carrot - جزر</option>
+  <option value="strawberry" data-base="800">🍓 Strawberry - فراولة</option>
+  <option value="sunflower" data-base="600">🌻 Sunflower - دوار الشمس</option>
+</select>
 
-        <fieldset>
-            <legend>Mutations</legend>
-            <label><input type="checkbox" class="mutation" value="1"> Wet</label>
-            <label><input type="checkbox" class="mutation" value="2"> Pollinated</label>
-            <label><input type="checkbox" class="mutation" value="4"> Honey Glazed</label>
-            <label><input type="checkbox" class="mutation" value="9"> Frozen</label>
-            <label><input type="checkbox" class="mutation" value="99"> Shocked</label>
-        </fieldset>
+<label>⚖️ الوزن (Weight):</label>
+<input type="number" id="weight" step="0.01" value="1">
 
-        <button onclick="calculate()">Calculate Value</button>
-        <div id="result">Total Value: 0</div>
-    </div>
+<label>🌿 قيمة النمو (Growth Multiplier):</label>
+<input type="number" id="growth" step="0.01" value="1">
 
-    <script>
-        const baseValues = {
-            "Rose": 250,
-            "Carrot": 100,
-            "Sunflower": 180,
-            "Tulip": 220,
-            "Lily": 275,
-            "Pumpkin": 300,
-            "Strawberry": 150,
-            "Cactus": 400,
-            "Pineapple": 350,
-            "Watermelon": 320
-        };
+<label>🧬 عدد الطفرات (Number of Mutations):</label>
+<input type="number" id="mutations" value="0">
 
-        function calculate() {
-            const plant = document.getElementById("plant").value;
-            const weight = parseFloat(document.getElementById("weight").value);
-            const growth = parseFloat(document.getElementById("growth").value);
-            const mutations = Array.from(document.querySelectorAll(".mutation:checked"))
-                                   .map(el => parseFloat(el.value));
-            const mutationSum = mutations.reduce((acc, val) => acc + val, 0);
-            const base = baseValues[plant];
-            const total = base * weight * growth * (1 + mutationSum);
-            document.getElementById("result").textContent = "Total Value: " + total.toLocaleString();
-        }
-    </script>
+<button onclick="calculate()">احسب القيمة | Calculate Value</button>
+
+<div class="result" id="output">💰 القيمة ستظهر هنا...</div>
+
+<script>
+function calculate() {
+  const plant = document.getElementById("plant");
+  const baseValue = parseFloat(plant.options[plant.selectedIndex].getAttribute("data-base"));
+  const weight = parseFloat(document.getElementById("weight").value);
+  const growth = parseFloat(document.getElementById("growth").value);
+  const mutations = parseInt(document.getElementById("mutations").value);
+
+  const total = baseValue * weight * growth * (1 + 0.1 * mutations);
+
+  document.getElementById("output").innerHTML = `💰 القيمة النهائية = ${Math.round(total).toLocaleString()} 🪙`;
+}
+</script>
+
 </body>
 </html>
